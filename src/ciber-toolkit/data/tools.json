@@ -1,0 +1,475 @@
+{
+  "__menu__": {
+    "spoofing": {
+      "SpoofMAC": "Allows you to change your MAC address for depuration",
+      "DerpNSpoof": "Simple DNS Spoofing tool",
+      "DrSpoof": "A tool to detect and stop ARP Spoofing attacks in your local network",
+      "GOD-KILLER": "SMS-BOMBER y SMS-SENDER",
+      "fake-SMS": "Temporary phonenumber that acts like a proxy"
+    },
+    "phishing": {
+      "PhishX": "Phising and spoofing generator",
+      "SocialPhish": "The most complete Phishing tool with 32+ templates",
+      "Phisher-Man2": "Phishing tools for Linux with 30+ Phishing Pages",
+      "BlackEye": "Upgraded ShellPhish Tool",
+      "Zphisher": "A beginners friendly, Automated phishing tool with 30+ templates",
+      "AIOPhish": "Social Toolkit for Phishing"
+    },
+    "wifi": {
+      "WifiPhisher": "Tool that allows to capture wifi passwords by AP",
+      "Ethercap": "Interceptor/sniffer/logger for switched LANs",
+      "mitm-proxy": "An interactive CLI, SSL/TLS-capable intercepting proxy for HTTP/1, HTTP/2, and WebSockets"
+    },
+    "passwords": {
+      "Cupp": "Common User Passwords Profiler",
+      "brut3k1t": "Crowd-sourced credential stuffing engine built for security professionals",
+      "BruteSpray": "Finds non-standard ports and brute-forces services with default credentials",
+      "PUPI": "Simple passwords generator from simple personal informations"
+    },
+    "web": {
+      "SQLMap": "Penetration testing tool that detects and exploits SQL",
+      "FuxPloider": "Penetration testing tool that detects and exploits file upload forms flaws",
+      "SiteBroker": "Cross-platform utility for information gathering and penetration automation"
+    },
+    "informationgathering": {
+      "NMAP": "Utility for network exploration or security auditing",
+      "Infoga": "Gathering email accounts information tool",
+      "PhoneInfoga": "One of the most advanced tools to scan international phone numbers",
+      "URLextractor": "Information gathering & website reconnaissance",
+      "ReconDog": "Reconnaissance Swiss Army Knife",
+      "WebKiller": "Tool Information Gathering Write With Python",
+      "StormBreaker": "A tool with attractive capabilities",
+      "Osintgram": "OSINT tool on Instagram to collect, analyze, and run reconnaissance"
+    },
+    "others": {
+      "msfpc": "A quick way to generate various 'basic' Meterpreter payloads via msfvenom"
+    }
+  },
+  "__spoofing__": "",
+  "SpoofMAC": {
+    "tags": [
+      "spoofing",
+      "CLI"
+    ],
+    "git": "https://github.com/feross/SpoofMAC.git",
+    "path": "/usr/bin/cibertk/tools/spoofing/SpoofMAC",
+    "run": "spoof-mac list | cut -d\\  -f 1 | sed s/\\x22// | spoof-mac randomize ; echo [*] Running spoof-mac randomize",
+    "install": "python3 setup.py install",
+    "requirements": "apt install net-tools iproute2 -y",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "2.1.1"
+  },
+  "DerpNSpoof": {
+    "tags": [
+      "spoofing",
+      "web attacks"
+    ],
+    "git": "https://github.com/Trackbool/DerpNSpoof.git",
+    "path": "/usr/bin/cibertk/tools/spoofing/DerpNSpoof",
+    "run": "python3 DerpNSpoof.py all ipspoof.txt",
+    "install": "echo DerpNSpoof",
+    "requirements": "apt install iproute2 -y ; python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "#"
+  },
+  "DrSpoof": {
+    "tags": [
+      "spoofing",
+      "CLI"
+    ],
+    "git": "https://github.com/Enixes/Dr.Spoof.git",
+    "path": "/usr/bin/cibertk/tools/spoofing/DrSpoof",
+    "run": "bash DrSpoof.sh",
+    "install": "chmod +x DrSpoof.sh",
+    "requirements": "apt install net-tools iproute2 inetutils-ping -y",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "#"
+  },
+  "GOD-KILLER": {
+    "tags": [
+      "spoofing"
+    ],
+    "git": "https://github.com/FDX100/GOD-KILLER.git",
+    "path": "/usr/bin/cibertk/tools/spoofing/GOD-KILLER",
+    "run": "GOD-KILLER",
+    "install": "python3 install.py",
+    "fix": "mv install.py old.py ; cat old.py | sed 's/raw_input/input/' > install.py",
+    "requirements": "",
+    "isRequirements": 0,
+    "isInstalled": 0,
+    "version": "DEMO-VERSION"
+  },
+  "fake-SMS": {
+    "tags": [
+      "spoofing"
+    ],
+    "git": "https://github.com/Narasimha1997/fake-sms.git",
+    "path": "/usr/bin/cibertk/tools/spoofing/fake-SMS",
+    "run": "cd bin && ./fake-sms",
+    "install": "echo fake-SMS",
+    "requirements": "",
+    "isRequirements": 0,
+    "isInstalled": 0,
+    "version": "#"
+  },
+  "__phising__": "",
+  "PhishX": {
+    "tags": [
+      "phising",
+      "spoofing"
+    ],
+    "git": "https://github.com/Userphish/PhishX.git",
+    "path": "/usr/bin/cibertk/tools/phising/PhishX",
+    "run": "python3 PhishX.py",
+    "install": "apt install wget unzip -y ; bash installer.sh",
+    "fix": "mv installer.sh old.sh ; cat old.sh | sed '28d' | sed 's/rm -r/rm/' | sed 's/rm/rm -rf/' | sed 's/pip3/python3 -m pip/' > installer.sh",
+    "requirements": "apt install php -y",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "1.1"
+  },
+  "SocialPhish": {
+    "tags": [
+      "phising"
+    ],
+    "git": "https://github.com/xHak9x/SocialPhish.git",
+    "path": "/usr/bin/cibertk/tools/phising/SocialPhish",
+    "run": "bash socialphish.sh",
+    "install": "echo SocialPhish",
+    "requirements": "apt install php curl unzip wget -y",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "1.6"
+  },
+  "Phisher-Man2": {
+    "tags": [
+      "phising",
+      "CLI"
+    ],
+    "git": "https://github.com/FDX100/Phisher-man.git",
+    "path": "/usr/bin/cibertk/tools/phising/Phisher-Man2",
+    "run": "python3 app.py",
+    "install": "echo Phisher-Man2",
+    "requirements": "apt install apache2 xterm -y ; python3 -m pip install Flask",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "2.0"
+  },
+  "BlackEye": {
+    "tags": [
+      "phising"
+    ],
+    "git": "https://github.com/An0nUD4Y/blackeye.git",
+    "path": "/usr/bin/cibertk/tools/phising/BlackEye",
+    "run": "bash blackeye.sh",
+    "install": "echo BlackEye",
+    "requirements": "apt install php wget unzip curl -y",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "1.5"
+  },
+  "Zphisher": {
+    "tags": [
+      "phising"
+    ],
+    "git": "https://github.com/htr-tech/zphisher.git",
+    "path": "/usr/bin/cibertk/tools/phising/Zphisher",
+    "run": "bash zphisher.sh",
+    "install": "echo Zphisher",
+    "requirements": "apt install php wget unzip curl -y",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "2.2"
+  },
+  "AIOPhish": {
+    "tags": [
+      "phising"
+    ],
+    "git": "https://github.com/DeepSociety/AIOPhish.git",
+    "path": "/usr/bin/cibertk/tools/phising/AIOPhish",
+    "run": "bash aiophish.sh",
+    "install": "apt install php wget unzip curl -y ; bash install.sh",
+    "fix": "mv install.py old.py ; cat old.py | sed 's/sudo //' > install.py",
+    "requirements": "python3 -m pip install Django",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "2.8"
+  },
+  "__wifi__": "",
+  "WifiPhisher": {
+    "tags": [
+      "wifi attacks",
+      "phishing",
+      "CLI"
+    ],
+    "git": "https://github.com/wifiphisher/wifiphisher.git",
+    "path": "/usr/bin/cibertk/tools/wifi/WifiPhisher",
+    "run": "wifiphisher",
+    "install": "python3 setup.py install",
+    "requirements": "apt install dnsmasq libnl-3-dev libnl-genl-3-dev libssl-dev -y",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "1.4"
+  },
+  "Ethercap": {
+    "tags": [
+      "wifi attacks",
+      "spoofing",
+      "logger",
+      "CLI"
+    ],
+    "path": "/usr/bin/cibertk/tools/wifi/Ethercap",
+    "run": "ettercap -G",
+    "install": "apt install zlib1g zlib1g-dev build-essential ettercap-common ettercap-graphical -y",
+    "requirements": "",
+    "isRequirements": 0,
+    "isInstalled": 0,
+    "version": "#"
+  },
+  "mitm-proxy": {
+    "tags": [
+      "wifi attacks",
+      "spoofing",
+      "CLI-BOTH"
+    ],
+    "path": "/usr/bin/cibertk/tools/wifi/mitm-proxy",
+    "run": "mitmproxy",
+    "install": "python3 -m pip install mitmproxy",
+    "requirements": "",
+    "isRequirements": 0,
+    "isInstalled": 0,
+    "version": "7.0.4"
+  },
+  "__passwords__": "",
+  "Cupp": {
+    "tags": [
+      "password",
+      "CLI"
+    ],
+    "git": "https://github.com/Mebus/cupp.git",
+    "path": "/usr/bin/cibertk/tools/passwords/Cupp",
+    "run": "python3 cupp.py -i",
+    "install": "echo Cupp",
+    "requirements": "",
+    "isRequirements": 0,
+    "isInstalled": 0,
+    "version": "3.3"
+  },
+  "brut3k1t": {
+    "tags": [
+      "password",
+      "CLI"
+    ],
+    "git": "https://github.com/ex0dus-0x/brute.git",
+    "path": "/usr/bin/cibertk/tools/passwords/brut3k1t",
+    "run": "brute -h",
+    "install": "python3 setup.py install",
+    "requirements": "python3 -m pip install brute-engine",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "0.0.3"
+  },
+  "BruteSpray": {
+    "tags": [
+      "password",
+      "CLI-BOTH"
+    ],
+    "git": "https://github.com/x90skysn3k/brutespray.git",
+    "path": "/usr/bin/cibertk/tools/passwords/BruteSpray",
+    "run": "nmap -sS -sV *.*.*.*/* -vv -oG nmap.gnmap ; python3 brutespray.py --file nmap.gnmap -i",
+    "install": "apt install nmap -y",
+    "requirements": "apt install medusa -y ; python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "#"
+  },
+  "PUPI": {
+    "tags": [
+      "password"
+    ],
+    "git": "https://github.com/mIcHyAmRaNe/PUPI.git",
+    "path": "/usr/bin/cibertk/tools/passwords/PUPI",
+    "run": "python3 pupi.py",
+    "install": "echo PUPI",
+    "requirements": "python3 -m pip install colorama",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "#"
+  },
+  "__web__": "",
+  "SQLMap": {
+    "tags": [
+      "web attacks",
+      "CLI-BOTH"
+    ],
+    "git": "https://github.com/sqlmapproject/sqlmap.git",
+    "path": "/usr/bin/cibertk/tools/web/SQLMap",
+    "run": "python3 sqlmap.py --shell",
+    "install": "echo SQLMap",
+    "requirements": "",
+    "isRequirements": 0,
+    "isInstalled": 0,
+    "version": "1.6"
+  },
+  "FuxPloider": {
+    "tags": [
+      "web attacks",
+      "CLI"
+    ],
+    "git": "https://github.com/almandin/fuxploider.git",
+    "path": "/usr/bin/cibertk/tools/web/FuxPloider",
+    "run": "python3 fuxploider.py -h ; sleep 10",
+    "install": "echo FuxPloider",
+    "requirements": "python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "1"
+  },
+  "SiteBroker": {
+    "tags": [
+      "web attacks"
+    ],
+    "git": "https://github.com/Anon-Exploiter/SiteBroker.git",
+    "path": "/usr/bin/cibertk/tools/web/SiteBroker",
+    "run": "python3 SiteBroker.py",
+    "install": "echo SiteBroker",
+    "requirements": "python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "#"
+  },
+  "__informationgathering__": "",
+  "NMAP": {
+    "tags": [
+      "information gathering",
+      "CLI"
+    ],
+    "path": "/usr/bin/cibertk/tools/informationgathering/NMAP",
+    "run": "nmap -h ; sleep 10",
+    "install": "apt install nmap -y",
+    "requirements": "",
+    "isRequirements": 0,
+    "isInstalled": 0,
+    "version": "7.92"
+  },
+  "Infoga": {
+    "tags": [
+      "information gathering",
+      "CLI"
+    ],
+    "git": "https://github.com/m4ll0k/Infoga.git",
+    "path": "/usr/bin/cibertk/tools/informationgathering/Infoga",
+    "run": "python3 infoga.py -H ; sleep 10",
+    "install": "python3 setup.py install",
+    "requirements": "",
+    "isRequirements": 0,
+    "isInstalled": 0,
+    "version": "#"
+  },
+  "PhoneInfoga": {
+    "tags": [
+      "information gathering",
+      "CLI"
+    ],
+    "curl": "-sSL https://raw.githubusercontent.com/sundowndev/phoneinfoga/master/support/scripts/install | bash",
+    "path": "/usr/bin/cibertk/tools/informationgathering/PhoneInfoga",
+    "run": "./phoneinfo -h ; sleep 10",
+    "install": "tar xfv PhoneInfo*",
+    "requirements": "",
+    "isRequirements": 0,
+    "isInstalled": 0,
+    "version": "2.4.2-bd5b9ee"
+  },
+  "URLextractor": {
+    "tags": [
+      "information gathering",
+      "CLI"
+    ],
+    "git": "https://github.com/eschultze/URLextractor.git",
+    "path": "/usr/bin/cibertk/tools/informationgathering/URLextractor",
+    "run": "bash extractor.sh ; sleep 10",
+    "install": "echo URLextractor",
+    "requirements": "apt install bc curl dnsutils libxml2-utils whois lynx openssl -y",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "0.2"
+  },
+  "ReconDog": {
+    "tags": [
+      "information gathering",
+      "CLI-BOTH"
+    ],
+    "git": "https://github.com/s0md3v/ReconDog.git",
+    "path": "/usr/bin/cibertk/tools/informationgathering/ReconDog",
+    "run": "python3 dog",
+    "install": "echo ReconDog",
+    "requirements": "python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "2"
+  },
+  "WebKiller": {
+    "tags": [
+      "information gathering",
+      "web attacks"
+    ],
+    "git": "https://github.com/ultrasecurity/webkiller.git",
+    "path": "/usr/bin/cibertk/tools/informationgathering/WebKiller",
+    "run": "python3 webkiller.py",
+    "install": "echo WebKiller",
+    "fix": "mv requirments.txt requirements.txt",
+    "requirements": "python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "2"
+  },
+  "StormBreaker": {
+    "tags": [
+      "information gathering",
+      "smartphones"
+    ],
+    "git": "https://github.com/ultrasecurity/Storm-Breaker.git",
+    "path": "/usr/bin/cibertk/tools/informationgathering/StormBreaker",
+    "run": "sudo python3 Storm-Breaker.py",
+    "install": "bash install.sh",
+    "fix": "mv requirments.txt requirements.txt ; mv install.sh old.sh ; cat old.sh | sed 's/apt install/apt install -y/' > install.sh",
+    "requirements": "apt install sudo php neofetch -y ; python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "#"
+  },
+  "Osintgram": {
+    "tags": [
+      "information gathering",
+      "CLI-BOTH"
+    ],
+    "git": "https://github.com/Datalux/Osintgram.git",
+    "path": "/usr/bin/cibertk/tools/informationgathering/Osintgram",
+    "run": "python3 main.py -h",
+    "install": "make setup",
+    "fix": "mv requirements.txt old.txt ; cat old.txt | sed '6d' > requirements.txt ; mv main.py old.py ; cat old.py | sed 's/import gnureadline/import readline as gnureadline/' > main.py",
+    "requirements": "python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "1.3"
+  },
+  "__others__": "",
+  "msfpc": {
+    "tags": [
+      "others",
+      "exploiting",
+      "Kali Only",
+      "CLI"
+    ],
+    "path": "/usr/bin/cibertk/tools/others/msfpc",
+    "run": "msfpc -h ; sleep 10",
+    "install": "apt install msfpc -y",
+    "requirements": "apt install iproute2 -y",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "version": "1.4.5"
+  }
+}
