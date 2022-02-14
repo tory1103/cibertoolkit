@@ -133,7 +133,7 @@ class Tool(PickleDB):
 
             # Create a shortcut for tool
             print(f"{GREEN}[{MARK}] Created shortcut tk-{self.tool}")
-            system(f"""touch /bin/tk-{self.tool} ; echo "#!/bin/bash" > /bin/tk-{self.tool}; echo "cd {self.path} && {self.run} $@" >> /bin/tk-{self.tool}; chmod +x /bin/tk-{self.tool}""")
+            system(f"""touch /bin/tk-{self.tool} ; echo "#!/bin/bash" > /bin/tk-{self.tool}; echo 'cd {self.path} && {self.run} $@' >> /bin/tk-{self.tool}; chmod +x /bin/tk-{self.tool}""")
 
             # Changes tool json data
             self.set("isInstalled", 1)
