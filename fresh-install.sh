@@ -37,4 +37,4 @@ echo -e "$orange                          Author : Adrian Toral                 
 echo -e "$default"
 
 $SHELL uninstall.sh
-$SHELL install.sh
+$SHELL install.sh $@
