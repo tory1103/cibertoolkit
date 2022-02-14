@@ -13,6 +13,8 @@
   ![GitHub license](https://img.shields.io/github/license/tory1103/cibertoolkit?color=blue)
   ![GitHub last commit](https://img.shields.io/github/last-commit/tory1103/cibertoolkit?color=red)
   ![Python version](https://img.shields.io/badge/Python-3.8+-orange?logo=python")
+  ![Version](https://img.shields.io/badge/version-Alpha-cyan?logo=python")
+
 </div>
 
 ---
