@@ -1,27 +1,15 @@
-# Author : Adrian Toral
-# Date   : 11-02-2022
-# Code   : Ciber ToolKit Main Menu
+# Author  : Adrian Toral
+# Date    : 11-02-2022
+# Code    : Ciber ToolKit Main Menu
+# Version : Alpha
 
 from os import system
 from my_pickledb import LoadPickleDB, PickleDB
+from utils import *
 
 # Global Variables
-BLUE = '\33[94m'
-RED = '\033[91m'
-WHITE = '\33[97m'
-CYAN = '\033[36m'
-DEFAULT = '\033[0m'
-YELLOW = '\33[93m'
-MAGENTA = '\033[1;35m'
-GREEN = '\033[1;32m'
-END = '\033[0m'
-BOLD = '\033[1m'
-CROSS = '✗'
-MARK = '✓'
-RIGHT_ARROW = '❯'
-
-TKJSON = LoadPickleDB("data/tools.json")
-CONFIRMATION = ["-y", "-yes", "y", "yes", "true"]
+TOOLKIT_TOOLS = LoadPickleDB("data/tools.json")
+SYSTEM_CLEAR = lambda: system("clear")
 
 
 class Tool(PickleDB):
@@ -30,22 +18,23 @@ class Tool(PickleDB):
         Class object to convert tool json data into PickleDB object
         This makes data fetching and updating easier and faster
 
-        :param name: Tool name
-        """
-
-        super().__init__(f"{name}.json.tmp", **TKJSON.get(name))
-
-        """
         This are some explanation of the variables used in the process
             .tool -> It is the tool name, the key how it will be searched in json
             .path -> It is the tool download and installation path, every time an command is run, it will be executed in this path
             .cmd  -> It is the tool download and installation command, it will be executed once in the tool path
             .run  -> It is the tool initialization command, every time you want to start the tool, this command will be executed
             .requirements -> It is the tool requirements, not installation ones, it will be installed once
+
+        :param name: Tool name
         """
+
+        super().__init__(f"""{name}.json.tmp""", **TOOLKIT_TOOLS.get(name))
 
         # Tool name
         self.tool = name
+
+        # GitHub repository to download or cURL url
+        self.git = self.get("git") if self.exists("git") else self.get("curl") if self.exists("curl") else None
 
         # Download and installation path
         self.path = self.get("path")
@@ -53,22 +42,25 @@ class Tool(PickleDB):
         # Initialization command of the tool
         self.run = self.get("run")
 
+        # Installation command
+        self.installation = self.get("install")
+
+        # Fix command
+        self.fix = self.get("fix")
+
         # Tool requirements
         self.requirements = self.get("requirements")
 
         # Tool downloader and installer command
         if self.exists("git"):
-            if not self.exists("fix"):
-                self.cmd = "git clone {} . && {}".format(self.get("git"), self.get("install"))
-            else:
-                self.cmd = "git clone {} . && {} && {}".format(self.get("git"), self.get("fix"), self.get("install"))
+            if not self.exists("fix"): self.cmd = f"""git clone {self.git} . && {self.installation}"""
+            else: self.cmd = f"""git clone {self.git} . && {self.fix} && {self.installation}"""
+
         elif self.exists("curl"):
-            if not self.exists("fix"):
-                self.cmd = "curl {} && {}".format(self.get("curl"), self.get("install"))
-            else:
-                self.cmd = "curl {} && {} && {}".format(self.get("curl"), self.get("fix"), self.get("install"))
-        else:
-            self.cmd = "{}".format(self.get("install"))
+            if not self.exists("fix"): self.cmd = f"""curl {self.git} && {self.installation}"""
+            else: self.cmd = f"""curl {self.git} . && {self.fix} && {self.installation}"""
+
+        else: self.cmd = f"""{self.installation}"""
 
     def start(self):
         """
@@ -80,10 +72,10 @@ class Tool(PickleDB):
         """
 
         try:
-            print(f"{GREEN}[{RIGHT_ARROW}] Running {self.tool} with {self.run}")
-            system(f"cd {self.path} && {self.run}")
-        except:
-            print(f"{RED}[{CROSS}] Error while running {self.tool}. Try again later")
+            print(f"""{YELLOW}[{RIGHT_ARROW}] Running {self.tool} with {self.run}""")
+            print(f"""{GREEN}[{MARK}] Response returned : {system(f"cd {self.path} && {self.run}")} status""")
+
+        except: print(f"""{RED}[{CROSS}] Error while running {self.tool}. Try again later""")
 
     def install(self, autorun: int = 0):
         """
@@ -103,56 +95,52 @@ class Tool(PickleDB):
             |- Requirements command
             |- Run command
 
-        :param autorun: Runs tool automatically if True
+        :param autorun: Runs tool automatically after installation if True
         :return:
         """
 
-        # Check if json has tool name
-        if not TKJSON.exists(self.tool):
-            print(f"{RED}[{CROSS}] Invalid tool {self.tool}. Check if it is spelled correctly")
-            return -1
-
         # Downloads and install tool in path if it doesn't exist
         if not self.get("isInstalled"):
+            print(f"""{YELLOW}[{INTERROGATION}] Running installer for {self.tool}""")
+
             # Creates tool path if it doesn't exist
-            print(f"""{GREEN}[{RIGHT_ARROW}] Running installer for {self.tool}""")
-            system(f"""if [ ! -d {self.path} ]; then  mkdir -p "{self.path}";  echo "{GREEN}""[{MARK}] {self.path} created. Done"; else echo "{GREEN}""[{MARK}] {self.path} already created. Skipping..."; fi""")
+            print(f"""{YELLOW}[{INTERROGATION}] Creating path for {self.tool}""")
+            system(f"""if [ ! -d {self.path} ]; then  mkdir -p "{self.path}";  echo "{GREEN}""[{MARK}] {self.path} created. Done"; else echo "{ORANGE}""[{CROSS}] {self.path} already created. Skipping..."; fi""")
 
             # Runs tool fixer if exists
             if self.exists("fix"):
-                print(f"""{YELLOW}[{RIGHT_ARROW}] Running fixer for {self.tool}{GREEN}""")
+                print(f"""{YELLOW}[{INTERROGATION}] Running fixer for {self.tool}{GREEN}""")
 
             # Downloads and install tool in path
-            system(f"cd {self.path} && {self.cmd}")
-            print(f"{GREEN}[{MARK}] {self.tool} installed correctly")
+            system(f"""cd {self.path} && {self.cmd}""")
+            print(f"""{GREEN}[{MARK}] {self.tool} installed correctly""")
 
             # Installs tool requirements if needed
             if self.get("isRequirements"):
-                print(f"""{YELLOW}[{RIGHT_ARROW}] Installing requirements for {self.tool}{GREEN}""")
-                system(f"cd {self.path} && {self.requirements}")
+                print(f"""{YELLOW}[{INTERROGATION}] Installing requirements for {self.tool}{GREEN}""")
+                system(f"""cd {self.path} && {self.requirements}""")
 
             # Create a shortcut for tool
-            print(f"{GREEN}[{MARK}] Created shortcut tk-{self.tool}")
-            system(f"""touch /bin/tk-{self.tool} ; echo "#!/bin/bash" > /bin/tk-{self.tool}; echo 'cd {self.path} && {self.run} $@' >> /bin/tk-{self.tool}; chmod +x /bin/tk-{self.tool}""")
+            print(f"""{GREEN}[{MARK}] Created shortcut tk-{self.tool.lower()}""")
+            system(f"""touch /bin/tk-{self.tool.lower()} ; echo "#!/bin/bash" > /bin/tk-{self.tool.lower()}; echo 'cd {self.path} && {self.run} $@' >> /bin/tk-{self.tool.lower()}; chmod +x /bin/tk-{self.tool.lower()}""")
 
             # Changes tool json data
             self.set("isInstalled", 1)
-            TKJSON.set(self.tool, self.json)
+            TOOLKIT_TOOLS.set(self.tool, self.json)
 
-        else:
-            print(f"""{GREEN}[{MARK}] {self.tool} is already installed. Skipping...""")
+        else: print(f"""{ORANGE}[{CROSS}] {self.tool} is already installed. Skipping...""")
 
         # Save tools new json
-        TKJSON.save.as_json()
+        TOOLKIT_TOOLS.save.as_json()
 
         # Ask for running the tool
         run = False
-        if not autorun: run = input(f"{YELLOW}[{RIGHT_ARROW}] Do you want to run it (y/n): {DEFAULT}").lower() in CONFIRMATION
+        if not autorun: run = input(f"""{YELLOW}[{RIGHT_ARROW}] Do you want to run it (y/n): {DEFAULT}""").lower() in CONFIRMATION
         if run or autorun:
-            system("clear")
+            SYSTEM_CLEAR()
             self.start()
-        else:
-            print(f"{GREEN}[{RIGHT_ARROW}] Not running {self.tool}. Finishing")
+
+        else: print(f"""{RED}[{CROSS}] Not running {self.tool}. Finishing""")
 
 
 if __name__ == '__main__':
@@ -161,86 +149,104 @@ if __name__ == '__main__':
     Options variable contains all the available tags
     """
 
-    running = True
-    options = {
+    isRunning = True
+    categories = {
         str(i + 1): j
         for i, j in enumerate(
-            TKJSON.get("__menu__").keys()
+            TOOLKIT_TOOLS.get("__menu__").keys()
         )
     }
 
-    while running:
-        # Banner
-        system("clear")
-        print(
-            f"""{RED}
-            __  ____  ____     ___  ____         ______  __  _     
-           /  ]l    j|    \   /  _]|    \       |      T|  l/ ]    
-          /  /  |  T |  o  ) /  [_ |  D  )_____ |      ||  ' /     
-         /  /   |  | |     TY    _]|    /|     |l_j  l_j|    \     
-        /   \_  |  | |  O  ||   [_ |    \l_____j  |  |  |     Y    
-        \     | j  l |     ||     T|  .  Y        |  |  |  .  |    
-         \____j|____jl_____jl_____jl__j\_j        l__j  l__j\_j    
-                                               By: Adrian Toral     
+    SYSTEM_CLEAR()
+    print(MAIN_BANNER)
+    while isRunning:
+        execute_on_bash = False
 
-    {WHITE}╔───────────────────────────────────────────────────────────────────────────────────╗
-    {WHITE}|                                        MENU                                       |
-    {WHITE}|───────────────────────────────────────────────────────────────────────────────────|
-    {WHITE}|                                         |                                         |
-    {WHITE}|          [01] {YELLOW}Spoofing{WHITE}                  |       [06] {YELLOW}Information Gathering{WHITE}        |
-    {WHITE}|                                         |                                         |
-    {WHITE}|          [02] {YELLOW}Phishing{WHITE}                  |       [07] {YELLOW}Others{WHITE}                       |
-    {WHITE}|                                         |                                         |
-    {WHITE}|          [03] {YELLOW}Wifi Attacks{WHITE}              |       [08] {YELLOW}Custom tools{RED} [Under Dev.]{WHITE}    |
-    {WHITE}|                                         |                                         |
-    {WHITE}|          [04] {YELLOW}Passwords Attacks{WHITE}         |       [09] {YELLOW}About{WHITE}                        |
-    {WHITE}|                                         |                                         |
-    {WHITE}|          [05] {YELLOW}Web Attacks{WHITE}               |       [10] {YELLOW}Exit{WHITE}                         |
-    {WHITE}┖───────────────────────────────────────────────────────────────────────────────────┙
-    {DEFAULT}"""
-        )
+        command_to_execute = input(f"""{RED}ToolKit {RIGHT_ARROW}{DEFAULT} """).lower()
 
-        selection = input(f"{RED}ToolKit {RIGHT_ARROW}{DEFAULT}")
+        if command_to_execute in CLEAN: SYSTEM_CLEAR(); print(MAIN_BANNER)
 
-        if selection == "10": running = False
+        elif command_to_execute in EXIT: isRunning = False
 
-        elif selection == "9":
-            print(
-                """
-                ╔──────────────────────────────────────────────────╗
-                |               Author: Adrián Toral               |
-                |           Ciber ToolKit Copyright 2022           |
-                | Github: https://github.com/tory1103/cibertoolkit |
-                |                      v1.0.0                      |
-                |                                                  |
-                ┖──────────────────────────────────────────────────┙
-                            """
+        elif command_to_execute in ["about", "9"]: print(ABOUT_BANNER)
+
+        elif command_to_execute in ["custom", "8"]: print(CUSTOM_BANNER)
+
+        elif command_to_execute in categories:
+            SYSTEM_CLEAR()
+            print(TOOL_TAG_BANNER)
+
+            tool_and_info = list(
+                TOOLKIT_TOOLS.get("__menu__").get(
+                    categories.get(command_to_execute)
+                ).items()
             )
-            system("sleep 2")
 
-        elif selection == "8":
-            print("CUSTOM")
-            system("sleep 2")
+            tool_keys = list(
+                TOOLKIT_TOOLS.get("__menu__").get(
+                    categories.get(command_to_execute)
+                ).keys()
+            )
 
-        elif selection in options:
-            system("clear")
-            print(f"========={GREEN}Tool{DEFAULT}==================================={GREEN}Information{DEFAULT}================================")
-            tag_tools_info = list(TKJSON.get("__menu__").get(options.get(selection)).items())
-            for index, tool in enumerate(tag_tools_info):
-                print(f"{'0' + str(index) if index < 10 else index}) {MAGENTA if 'CLI' in TKJSON.get(tool[0]).get('tags') else CYAN if 'CLI-BOTH' in TKJSON.get(tool[0]).get('tags') else BLUE}{tool[0]}{DEFAULT} {tool[1]}")
-            print(f"99) {YELLOW}Back{DEFAULT}")
-            print(f"\n{MAGENTA}[*] CLI")
-            print(f"{BLUE}[*] CLI-GUI")
-            print(f"{CYAN}[*] CLI / CLI-GUI")
+            for tool_index, tool_data in enumerate(tool_and_info):
+                """
+                This are the iterated tool variables, some explanation of it are:
+                    tool_name -> Regular name of the tool
+                    tool_description -> Regular description of the tool
+                    tool_index -> The position of the tool in the saved json
+                    tool_tags -> A list with all tool tags
+                    tool_colortype -> Color to know if the tool is CLI only, CLI and CLI-GUI or CLI-GUI
+                    tool_to_execute -> Tool name or index to execute
+                    tool_argv -> Tool execution arguments
+                """
+                tool_name = tool_data[0]
+                tool_description = tool_data[1]
+                tool_index = "0" + str(tool_index) if tool_index < 10 else tool_index
+                tool_tags = TOOLKIT_TOOLS.get(tool_name).get("tags")
 
-            selection = input(f"{RED}ToolKit {RIGHT_ARROW}{DEFAULT}").split()
-            confirmation = selection[-1]
-            selection = int(selection[0])
+                if "CLI" in tool_tags:
+                    tool_colortype = MAGENTA
+                elif "CLI-BOTH" in tool_tags:
+                    tool_colortype = CYAN
+                else:
+                    tool_colortype = BLUE
 
-            if selection <= len(tag_tools_info):
-                Tool(tag_tools_info[selection][0]).install(1 if confirmation.lower() in CONFIRMATION else 0)
-        else:
+                print(f"""{YELLOW}{tool_index}) {tool_colortype}{tool_name} {DEFAULT}{tool_description}""")
+
+            print(f"""{YELLOW}99) Back{DEFAULT}""")
+            print()
+            print(f"""{YELLOW}[*] {MAGENTA}CLI""")
+            print(f"""{YELLOW}[*] {BLUE}CLI-GUI""")
+            print(f"""{YELLOW}[*] {CYAN}CLI / CLI-GUI""")
+
+            tool_to_execute_raw = input(f"""{RED}ToolKit {RIGHT_ARROW}{DEFAULT} """)
+            tool_to_execute = tool_to_execute_raw.split()[0]
+            tool_argv = tool_to_execute_raw.split()[1:]
+
             try:
-                system(f"""bash -c "{selection}" """)
+                if tool_to_execute in CLEAN or tool_to_execute in PASS: SYSTEM_CLEAR(); print(MAIN_BANNER)
+
+                elif tool_to_execute in EXIT: isRunning = False
+
+                elif tool_to_execute in tool_keys: Tool(tool_to_execute).install(any(x in CONFIRMATION for x in tool_argv))
+
+                elif int(tool_to_execute) <= len(tool_and_info): Tool(tool_and_info[int(tool_to_execute)][0]).install(any(x in CONFIRMATION for x in tool_argv))
+
+                else:
+                    command_to_execute = tool_to_execute_raw
+                    execute_on_bash = True
+
             except:
-                print(f"{RED}[{CROSS}] Command returned error. Try again")
+                command_to_execute = tool_to_execute_raw
+                execute_on_bash = True
+
+        else: execute_on_bash = True
+
+        if execute_on_bash:
+            try:
+                SYSTEM_CLEAR()
+
+                print(f"""{GREEN}[{MARK}] Executed '{command_to_execute}' successfully""")
+                print(f"""{GREEN}[{MARK}] Response returned : {system(f'''bash -c "{command_to_execute}" ''')} status""")
+
+            except: print(f"""{RED}[{CROSS}] Command '{command_to_execute}' returned error. Try again later""")
