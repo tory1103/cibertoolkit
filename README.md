@@ -20,7 +20,8 @@
 ---
 
 
-**Ciber-Toolkit** is a framework designed to automate the process of downloading and installing different penetration testing tools . It's based in [ToolKit Framework](https://github.com/AdrMXR/KitHack)
+**Ciber-Toolkit** is a framework designed to automate the process of downloading and installing different penetration testing tools . It's based in [ToolKit Framework](https://github.com/AdrMXR/KitHack).
+It just support linux for the moment, it is considered that it will be developed in the future for windows, for the moment use Docker alternative.
 
 
 ## 📝 Table of Contents
@@ -43,6 +44,13 @@ Ciber-Toolkit is an improved version of [ToolKit Framework](https://github.com/A
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
 ### Prerequisites
+```
+- Python3 or higher
+- Linux OS (Tested on Kali)
+- Sudo access
+- Windows isn't supported yet
+```
+
 ```requirements.txt
 oh-my-pickledb==0.4
 termcolor==1.1.0
@@ -65,6 +73,8 @@ $ docker run -it --name toolkit -p <host_port>:<docker_port> adriantoral/ciberto
 ```
 
 ## 🎈 Usage <a name="usage"></a>
+
+### First steps
 ```bash
 # Once installed, if shortcut created, run:
 $ sudo toolkit
@@ -81,8 +91,23 @@ $ docker pull adriantoral/cibertoolkit
 $ docker run -it --name toolkit adriantoral/cibertoolkit
 ```
 
+### Introducing to the power of the Terminal
+Our goal is to make a fully functional pentesting environment, to achieve that, we need some powerful tools, like a Terminal
+It's not perfect yet, but we're trying.
+
+Some things it can do for the moment are:
+```
+- You can use all bash commands (an status will be returned). Some commands : bash, pwd, echo, apt, ...
+- Use installed tools shortcuts : tk-{lowercase tool name} 
+- Installation arguments : When installing a tool, you can use some arguments such :
+  - y || yes (for automatic run)
+  - More in a future...
+- Name instead of index for tool selection
+- Clear terminal : Typing clear, clean or <enter> will clean terminall interface
+```
+
 ## ⛏️ Built Using <a name = "built_using"></a>
-- Python
+- Python3.8
 - Json
 - Bash (sh)
 - Docker
