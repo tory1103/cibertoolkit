@@ -625,10 +625,11 @@
       "jailbreak",
       "IOS"
     ],
-    "wget": "-O - https://assets.checkra.in/debian/archive.key | gpg --dearmor | tee /usr/share/keyrings/checkra1n.gpg >/dev/null",
+    "wget": "-O - https://assets.checkra.in/debian/archive.key | gpg --dearmor | tee /usr/share/keyrings/checkra1n.gpg > /dev/null",
     "path": "/usr/bin/cibertk/tools/others/Checkra1n",
     "run": "checkra1n",
     "install": "apt update ; apt install checkra1n -y",
+    "fix": "echo 'deb [signed-by=/usr/share/keyrings/checkra1n.gpg] https://assets.checkra.in/debian /' | tee /etc/apt/sources.list.d/checkra1n.list",
     "requirements": "",
     "isRequirements": 0,
     "isInstalled": 0,
