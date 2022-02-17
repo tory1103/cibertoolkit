@@ -60,6 +60,10 @@ class Tool(PickleDB):
             if not self.exists("fix"): self.cmd = f"""curl {self.git} && {self.installation}"""
             else: self.cmd = f"""curl {self.git} . && {self.fix} && {self.installation}"""
 
+        elif self.exists("wget"):
+            if not self.exists("fix"): self.cmd = f"""wget {self.git} && {self.installation}"""
+            else: self.cmd = f"""wget {self.git} . && {self.fix} && {self.installation}"""
+
         else: self.cmd = f"""{self.installation}"""
 
     def start(self):
@@ -168,9 +172,7 @@ if __name__ == '__main__':
 
         elif command_to_execute in EXIT: isRunning = False
 
-        elif command_to_execute in ["about", "9"]: print(ABOUT_BANNER)
-
-        elif command_to_execute in ["custom", "8"]: print(CUSTOM_BANNER)
+        elif command_to_execute in ["about", "help", "9"]: print(ABOUT_BANNER)
 
         elif command_to_execute in categories:
             SYSTEM_CLEAR()
@@ -203,21 +205,25 @@ if __name__ == '__main__':
                 tool_description = tool_data[1]
                 tool_index = "0" + str(tool_index) if tool_index < 10 else tool_index
                 tool_tags = TOOLKIT_TOOLS.get(tool_name).get("tags")
+                tool_status =TOOLKIT_TOOLS.get(tool_name).get("isWorking")
 
-                if "CLI" in tool_tags:
-                    tool_colortype = MAGENTA
-                elif "CLI-BOTH" in tool_tags:
-                    tool_colortype = CYAN
-                else:
-                    tool_colortype = BLUE
+                if "CLI" in tool_tags: tool_colortype = PURPLE
+                elif "CLI-BOTH" in tool_tags: tool_colortype = CYAN
+                elif "KALI" in tool_tags: tool_colortype = DARKGREY
+                else: tool_colortype = BLUE
 
-                print(f"""{YELLOW}{tool_index}) {tool_colortype}{tool_name} {DEFAULT}{tool_description}""")
+                if tool_status == "W": tool_status = f"""{GREEN}Working"""
+                elif tool_status == "M": tool_status = f"""{YELLOW}Maintenance"""
+                elif tool_status == "N": tool_status = f"""{RED}Not Working"""
+
+                print(f"""{YELLOW}{tool_index}) {tool_colortype}{tool_name} {DEFAULT}{tool_description} {tool_status}""")
 
             print(f"""{YELLOW}99) Back{DEFAULT}""")
             print()
-            print(f"""{YELLOW}[*] {MAGENTA}CLI""")
+            print(f"""{YELLOW}[*] {PURPLE}CLI""")
             print(f"""{YELLOW}[*] {BLUE}CLI-GUI""")
             print(f"""{YELLOW}[*] {CYAN}CLI / CLI-GUI""")
+            print(f"""{YELLOW}[*] {DARKGREY}KALI / DOCKER""")
 
             tool_to_execute_raw = input(f"""{RED}ToolKit {RIGHT_ARROW}{DEFAULT} """)
             tool_to_execute = tool_to_execute_raw.split()[0]
