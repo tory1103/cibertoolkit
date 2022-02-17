@@ -35,8 +35,11 @@ fi
 
 # Programs needed
 apt update
-apt install git curl -y
+apt install git curl wget gpg -y
 apt install python3 python2 python3-pip python3-dev -y
+
+curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list && apt update &&  apt install ngrok
+ngrok authtoken 253DwCMYHqdHlzNapM0sxF04XGB_2NG9YQtFWNhof1d1t8Wth
 
 # Requirements
 python3 -m pip install -r "$(pwd)/requirements.txt"
@@ -55,6 +58,8 @@ for tag in spoofing phishing wifi passwords web informationgathering others; do
   fi
 done
 
+cp -r $(pwd)/src/ciber-toolkit/builtins $workdir
+
 # Shortcut for toolkit
 case $(echo "$1" | tr '[:upper:]' '[:lower:]') in
 y | yes | -y | -yes)
@@ -72,19 +77,22 @@ esac
 case $(echo "$option" | tr '[:upper:]' '[:lower:]') in
 y | yes)
   touch /bin/toolkit
-  echo "#!$SHELL" >/bin/toolkit
-  echo "cd $(pwd)/src/ciber-toolkit && python3 toolkit.py" >>/bin/toolkit
-  chmod +x /bin/toolkit
+  echo "#!$SHELL" > /bin/toolkit
+  echo "cd $(pwd)/src/ciber-toolkit && python3 toolkit.py" >> /bin/toolkit
 
   touch /bin/toolkit-freshinstall
-  echo "#!$SHELL" >/bin/toolkit-freshinstall
-  echo "cd $(pwd) && bash fresh-install.sh" >>/bin/toolkit-freshinstall
-  chmod +x /bin/toolkit-freshinstall
+  echo "#!$SHELL" > /bin/toolkit-freshinstall
+  echo "cd $(pwd) && bash fresh-install.sh" >> /bin/toolkit-freshinstall
 
   touch /bin/toolkit-uninstall
-  echo "#!$SHELL" >/bin/toolkit-uninstall
-  echo "cd $(pwd) && bash uninstall.sh" >>/bin/toolkit-uninstall
-  chmod +x /bin/toolkit-uninstall
+  echo "#!$SHELL" > /bin/toolkit-uninstall
+  echo "cd $(pwd) && bash uninstall.sh" >> /bin/toolkit-uninstall
+
+  touch /bin/toolkit-update
+  echo "#!$SHELL" > /bin/toolkit-update
+  echo "cd $(pwd) && bash update.sh" >> /bin/toolkit-update
+
+  chmod +x /bin/toolkit*
 
   echo -e "$green"
   echo -e "╔──────────────────────────────────────────────────────────╗"

@@ -23,7 +23,7 @@ echo -e "$yellow |    |   /    \|  |/    \ /  ___/\   __\__  \ |  | |  | _/ __ \
 echo -e "$yellow |    |  /   |  \  |   |  \\___ \  |  |  / __ \|  |_|  |_\  ___/|  | \/         "
 echo -e "$yellow |______/|___|  /__|___|  /____  > |__| (____  /____/____/\___  >__| /\  /\  /\ "
 echo -e "$yellow              \/        \/     \/            \/               \/     \/  \/  \/ "
-echo -e "$orange                         Ciber-ToolKit Installer                                "
+echo -e "$orange                        Ciber-ToolKit Uninstaller                               "
 echo -e "$orange                                                                                "
 echo -e "$orange                          Author : Adrian Toral                                 "
 echo -e "$default"
