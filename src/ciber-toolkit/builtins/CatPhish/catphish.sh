@@ -36,7 +36,7 @@ if [[ $? -ne 0 ]]; then
   exit 1
 fi
 
-ngrok http file://$workdir/$url >/dev/null
+ngrok http file://$workdir/$url
 
 # link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o -e "https://a02d-81-35-144-195.ngrok.io")
 # echo "$green""[$mark]"" Share this link : ""$orange""$link"
