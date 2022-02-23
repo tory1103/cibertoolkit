@@ -163,8 +163,7 @@
   },
   "Phisher-Man2": {
     "tags": [
-      "phishing",
-      "CLI"
+      "phishing"
     ],
     "git": "https://github.com/FDX100/Phisher-man.git",
     "path": "/usr/bin/cibertk/tools/phishing/Phisher-Man2",
@@ -187,7 +186,7 @@
     "requirements": "apt install php wget unzip curl -y",
     "isRequirements": 1,
     "isInstalled": 0,
-    "isWorking": "W",
+    "isWorking": "N",
     "version": "1.5"
   },
   "Zphisher": {
@@ -230,7 +229,7 @@
     "requirements": "apt install php -y",
     "isRequirements": 1,
     "isInstalled": 0,
-    "isWorking": "W",
+    "isWorking": "M",
     "version": "0"
   },
   "__wifi__": "",
