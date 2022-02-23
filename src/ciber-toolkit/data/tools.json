@@ -14,7 +14,7 @@
       "BlackEye": "Upgraded ShellPhish Tool",
       "Zphisher": "A beginners friendly, Automated phishing tool with 30+ templates",
       "AIOPhish": "Social Toolkit for Phishing",
-      "CatPhish": "Builtin phishing tool meant to be flexible, fast and easy to use"
+      "CatPhish": "Flexible, simple and fast webpage template downloader"
     },
     "wifi": {
       "WifiPhisher": "Tool that allows to capture wifi passwords by AP",
@@ -284,7 +284,7 @@
   "Cupp": {
     "tags": [
       "password",
-      "CLI"
+      "CLI-BOTH"
     ],
     "git": "https://github.com/Mebus/cupp.git",
     "path": "/usr/bin/cibertk/tools/passwords/Cupp",
@@ -450,7 +450,7 @@
     ],
     "wget": "https://raw.githubusercontent.com/sundowndev/phoneinfoga/master/support/scripts/install ; bash install",
     "path": "/usr/bin/cibertk/tools/informationgathering/PhoneInfoga",
-    "run": "./phoneinfo",
+    "run": "cd /usr/bin/cibertk/tools/informationgathering/PhoneInfoga && ./phoneinfo",
     "install": "tar xfv PhoneInfo*",
     "requirements": "",
     "isRequirements": 0,

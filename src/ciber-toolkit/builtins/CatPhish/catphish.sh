@@ -33,11 +33,6 @@ fi
 wget -r $url
 if [[ $? -ne 0 ]]; then
   echo "$red""[$cross] Invalid URL. Try again later"
-  exit 1
+else
+  echo "$green""[$mark] Webpage downloaded at $workdir/$url"
 fi
-
-ngrok http file://$workdir/$url
-
-# link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o -e "https://a02d-81-35-144-195.ngrok.io")
-# echo "$green""[$mark]"" Share this link : ""$orange""$link"
-
