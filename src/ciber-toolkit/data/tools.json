@@ -19,13 +19,15 @@
     "wifi": {
       "WifiPhisher": "Tool that allows to capture wifi passwords by AP",
       "Ethercap": "Interceptor/sniffer/logger for switched LANs",
-      "mitm-proxy": "An interactive CLI, SSL/TLS-capable intercepting proxy"
+      "mitm-proxy": "An interactive CLI, SSL/TLS-capable intercepting proxy",
+      "Impulse": "Modern Denial-of-service ToolKit"
     },
     "passwords": {
       "Cupp": "Common User Passwords Profiler",
       "brut3k1t": "Crowd-sourced credential stuffing engine built for security professionals",
       "BruteSpray": "Finds non-standard ports and brute-forces services with default credentials",
-      "PUPI": "Simple passwords generator from simple personal informations"
+      "PUPI": "Simple passwords generator from simple personal informations",
+      "RSACrack": "Brute Force - Passphrase - RSA PRIVATE KEY (id_rsa)"
     },
     "web": {
       "SQLMap": "Penetration testing tool that detects and exploits SQL",
@@ -42,7 +44,8 @@
       "ReconDog": "Reconnaissance Swiss Army Knife",
       "WebKiller": "Tool Information Gathering Write With Python",
       "StormBreaker": "A tool with attractive capabilities",
-      "Osintgram": "OSINT tool on Instagram to collect, analyze, and run reconnaissance"
+      "Osintgram": "OSINT tool on Instagram to collect, analyze, and run reconnaissance",
+      "IPGeoLocation": "A tool to retrieve IP Geolocation information"
     },
     "forensic": {
       "foremost": "Program to recover lost files based on their internal data structures",
@@ -280,6 +283,24 @@
     "isWorking": "W",
     "version": "7.0.4"
   },
+  "Impulse": {
+    "tags": [
+      "wifi attacks",
+      "phishing",
+      "bruteforce",
+      "DDOS",
+      "CLI"
+    ],
+    "git": "https://github.com/LimerBoy/Impulse.git",
+    "path": "/usr/bin/cibertk/tools/wifi/Impulse",
+    "run": "python3 impulse.py",
+    "install": "echo Impulse",
+    "requirements": "python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "isWorking": "W",
+    "version": "#"
+  },
   "__passwords__": "",
   "Cupp": {
     "tags": [
@@ -336,6 +357,21 @@
     "install": "echo PUPI",
     "requirements": "python3 -m pip install colorama",
     "isRequirements": 1,
+    "isInstalled": 0,
+    "isWorking": "W",
+    "version": "#"
+  },
+  "RSACrack": {
+    "tags": [
+      "password",
+      "CLI"
+    ],
+    "git": "https://github.com/d4t4s3c/RSAcrack.git",
+    "path": "/usr/bin/cibertk/tools/passwords/RSACrack",
+    "run": "bash RSAcrack.sh",
+    "install": "echo RSACrack",
+    "requirements": "",
+    "isRequirements": 0,
     "isInstalled": 0,
     "isWorking": "W",
     "version": "#"
@@ -535,6 +571,22 @@
     "isInstalled": 0,
     "isWorking": "W",
     "version": "1.3"
+  },
+  "IPGeoLocation": {
+    "tags": [
+      "information gathering",
+      "geolocation",
+      "CLI"
+    ],
+    "git": "https://github.com/maldevel/IPGeoLocation.git",
+    "path": "/usr/bin/cibertk/tools/informationgathering/IPGeoLocation",
+    "run": "python3 ipgeolocation.py",
+    "install": "echo IPGeoLocation",
+    "requirements": "python3 -m pip install -r requirements.txt",
+    "isRequirements": 1,
+    "isInstalled": 0,
+    "isWorking": "W",
+    "version": "2.0.4"
   },
   "__forensic__": "",
   "foremost": {
