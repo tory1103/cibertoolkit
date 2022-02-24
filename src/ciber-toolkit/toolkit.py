@@ -4,12 +4,15 @@
 # Version : Alpha
 
 from os import system
+
 from my_pickledb import LoadPickleDB, PickleDB
+
 from utils import *
 
 # Global Variables
 TOOLKIT_TOOLS = LoadPickleDB("data/tools.json")
 SYSTEM_CLEAR = lambda: system("clear")
+RUNNING = True
 
 
 class Tool(PickleDB):
@@ -147,13 +150,28 @@ class Tool(PickleDB):
         else: print(f"""{RED}[{CROSS}] Not running {self.tool}. Finishing""")
 
 
+def terminal_parser(command: str):
+    global RUNNING
+
+    if command in CLEAN: SYSTEM_CLEAR(); print(MAIN_BANNER)
+
+    elif command in EXIT: RUNNING = False
+
+    elif command in ABOUT: print(ABOUT_BANNER)
+
+    elif any([x for x in EXTRA if x in command]):
+        aux = command.split()
+        print(f"""{GREEN}{MARK} Response : {TOOLKIT_TOOLS.get(aux[-1]).get(aux[0])}""")
+
+    else: raise Exception("No command")
+
+
 if __name__ == '__main__':
     """
     Shows toolkit main menu interface while its running
     Options variable contains all the available tags
     """
 
-    isRunning = True
     categories = {
         str(i + 1): j
         for i, j in enumerate(
@@ -163,96 +181,91 @@ if __name__ == '__main__':
 
     SYSTEM_CLEAR()
     print(MAIN_BANNER)
-    while isRunning:
+    while RUNNING:
         execute_on_bash = False
 
-        command_to_execute = input(f"""{RED}ToolKit {RIGHT_ARROW}{DEFAULT} """).lower()
+        command_to_execute = input(f"""{RED}ToolKit {RIGHT_ARROW}{DEFAULT} """)
 
-        if command_to_execute in CLEAN: SYSTEM_CLEAR(); print(MAIN_BANNER)
+        try: terminal_parser(command_to_execute)
 
-        elif command_to_execute in EXIT: isRunning = False
+        except:
+            if command_to_execute in categories:
+                SYSTEM_CLEAR()
+                print(TOOL_TAG_BANNER)
 
-        elif command_to_execute in ["about", "help", "9"]: print(ABOUT_BANNER)
+                tool_and_info = list(
+                    TOOLKIT_TOOLS.get("__menu__").get(
+                        categories.get(command_to_execute)
+                    ).items()
+                )
 
-        elif command_to_execute in categories:
-            SYSTEM_CLEAR()
-            print(TOOL_TAG_BANNER)
+                tool_keys = list(
+                    TOOLKIT_TOOLS.get("__menu__").get(
+                        categories.get(command_to_execute)
+                    ).keys()
+                )
 
-            tool_and_info = list(
-                TOOLKIT_TOOLS.get("__menu__").get(
-                    categories.get(command_to_execute)
-                ).items()
-            )
+                for tool_index, tool_data in enumerate(tool_and_info):
+                    """
+                    This are the iterated tool variables, some explanation of it are:
+                        tool_name -> Regular name of the tool
+                        tool_description -> Regular description of the tool
+                        tool_index -> The position of the tool in the saved json
+                        tool_tags -> A list with all tool tags
+                        tool_colortype -> Color to know if the tool is CLI only, CLI and CLI-GUI or CLI-GUI
+                        tool_to_execute -> Tool name or index to execute
+                        tool_argv -> Tool execution arguments
+                    """
+                    tool_name = tool_data[0]
+                    tool_description = tool_data[1]
+                    tool_index = "0" + str(tool_index) if tool_index < 10 else tool_index
+                    tool_tags = TOOLKIT_TOOLS.get(tool_name).get("tags")
+                    tool_status = TOOLKIT_TOOLS.get(tool_name).get("isWorking")
 
-            tool_keys = list(
-                TOOLKIT_TOOLS.get("__menu__").get(
-                    categories.get(command_to_execute)
-                ).keys()
-            )
+                    if "CLI" in tool_tags: tool_colortype = PURPLE
+                    elif "CLI-BOTH" in tool_tags: tool_colortype = CYAN
+                    elif "KALI" in tool_tags: tool_colortype = DARKGREY
+                    else: tool_colortype = BLUE
 
-            for tool_index, tool_data in enumerate(tool_and_info):
-                """
-                This are the iterated tool variables, some explanation of it are:
-                    tool_name -> Regular name of the tool
-                    tool_description -> Regular description of the tool
-                    tool_index -> The position of the tool in the saved json
-                    tool_tags -> A list with all tool tags
-                    tool_colortype -> Color to know if the tool is CLI only, CLI and CLI-GUI or CLI-GUI
-                    tool_to_execute -> Tool name or index to execute
-                    tool_argv -> Tool execution arguments
-                """
-                tool_name = tool_data[0]
-                tool_description = tool_data[1]
-                tool_index = "0" + str(tool_index) if tool_index < 10 else tool_index
-                tool_tags = TOOLKIT_TOOLS.get(tool_name).get("tags")
-                tool_status =TOOLKIT_TOOLS.get(tool_name).get("isWorking")
+                    if tool_status == "W": tool_status = f"""{GREEN}Working"""
+                    elif tool_status == "M": tool_status = f"""{YELLOW}Maintenance"""
+                    elif tool_status == "N": tool_status = f"""{RED}Not Working"""
 
-                if "CLI" in tool_tags: tool_colortype = PURPLE
-                elif "CLI-BOTH" in tool_tags: tool_colortype = CYAN
-                elif "KALI" in tool_tags: tool_colortype = DARKGREY
-                else: tool_colortype = BLUE
+                    print(f"""{YELLOW}{tool_index}) {tool_colortype}{tool_name} {DEFAULT}{tool_description} {tool_status}""")
 
-                if tool_status == "W": tool_status = f"""{GREEN}Working"""
-                elif tool_status == "M": tool_status = f"""{YELLOW}Maintenance"""
-                elif tool_status == "N": tool_status = f"""{RED}Not Working"""
+                print(f"""{YELLOW}99) Back{DEFAULT}""")
+                print()
+                print(f"""{YELLOW}[*] {PURPLE}CLI""")
+                print(f"""{YELLOW}[*] {BLUE}CLI-GUI""")
+                print(f"""{YELLOW}[*] {CYAN}CLI / CLI-GUI""")
+                print(f"""{YELLOW}[*] {DARKGREY}KALI / DOCKER""")
 
-                print(f"""{YELLOW}{tool_index}) {tool_colortype}{tool_name} {DEFAULT}{tool_description} {tool_status}""")
+                tool_to_execute_raw = input(f"""{RED}ToolKit {RIGHT_ARROW}{DEFAULT} """)
+                tool_to_execute = tool_to_execute_raw.split()[0]
+                tool_argv = tool_to_execute_raw.split()[1:]
 
-            print(f"""{YELLOW}99) Back{DEFAULT}""")
-            print()
-            print(f"""{YELLOW}[*] {PURPLE}CLI""")
-            print(f"""{YELLOW}[*] {BLUE}CLI-GUI""")
-            print(f"""{YELLOW}[*] {CYAN}CLI / CLI-GUI""")
-            print(f"""{YELLOW}[*] {DARKGREY}KALI / DOCKER""")
+                try:
+                    try: terminal_parser(tool_to_execute_raw)
+                    except:
+                        if tool_to_execute in tool_keys: Tool(tool_to_execute).install(any(x in CONFIRMATION for x in tool_argv))
 
-            tool_to_execute_raw = input(f"""{RED}ToolKit {RIGHT_ARROW}{DEFAULT} """)
-            tool_to_execute = tool_to_execute_raw.split()[0]
-            tool_argv = tool_to_execute_raw.split()[1:]
+                        elif int(tool_to_execute) <= len(tool_and_info): Tool(tool_and_info[int(tool_to_execute)][0]).install(any(x in CONFIRMATION for x in tool_argv))
 
-            try:
-                if tool_to_execute in CLEAN or tool_to_execute in PASS: SYSTEM_CLEAR(); print(MAIN_BANNER)
+                        else:
+                            command_to_execute = tool_to_execute_raw
+                            execute_on_bash = True
 
-                elif tool_to_execute in EXIT: isRunning = False
-
-                elif tool_to_execute in tool_keys: Tool(tool_to_execute).install(any(x in CONFIRMATION for x in tool_argv))
-
-                elif int(tool_to_execute) <= len(tool_and_info): Tool(tool_and_info[int(tool_to_execute)][0]).install(any(x in CONFIRMATION for x in tool_argv))
-
-                else:
+                except:
                     command_to_execute = tool_to_execute_raw
                     execute_on_bash = True
 
-            except:
-                command_to_execute = tool_to_execute_raw
-                execute_on_bash = True
+            else: execute_on_bash = True
 
-        else: execute_on_bash = True
+            if execute_on_bash:
+                try:
+                    SYSTEM_CLEAR()
 
-        if execute_on_bash:
-            try:
-                SYSTEM_CLEAR()
+                    print(f"""{GREEN}[{MARK}] Executed '{command_to_execute}' successfully""")
+                    print(f"""{GREEN}[{MARK}] Response returned : {system(f'''bash -c "{command_to_execute}" ''')} status""")
 
-                print(f"""{GREEN}[{MARK}] Executed '{command_to_execute}' successfully""")
-                print(f"""{GREEN}[{MARK}] Response returned : {system(f'''bash -c "{command_to_execute}" ''')} status""")
-
-            except: print(f"""{RED}[{CROSS}] Command '{command_to_execute}' returned error. Try again later""")
+                except: print(f"""{RED}[{CROSS}] Command '{command_to_execute}' returned error. Try again later""")

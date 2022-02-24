@@ -24,8 +24,6 @@ PINK = '\033[95m'
 LIGHTCYAN = '\033[96m'
 WHITE = "\33[97m"
 
-print(BLUE, "hola", DARKGREY, "adios")
-
 BACKGROUND_BLACK = '\033[40m'
 BACKGROUND_RED = '\033[41m'
 BACKGROUND_GREEN = '\033[42m'
@@ -43,8 +41,10 @@ INTERROGATION = "ʔ"
 # Validation arrays
 CONFIRMATION = ["-y", "-yes", "y", "yes", "true"]
 EXIT = ["exit", "break", "stop", "10", "false"]
-CLEAN = ["clear", "clean", "c", ""]
+CLEAN = ["clear", "clean", "cls", "c", ""]
 PASS = ["b", "back", "pass", "skip", "99"]
+ABOUT = ["about", "help", "9"]
+EXTRA = ["tags", "git", "path", "run", "install", "requirements", "isRequirements", "isInstalled", "isWorking", "version"]
 
 # Banners
 MAIN_BANNER = f"""
@@ -75,13 +75,28 @@ MAIN_BANNER = f"""
     {DEFAULT}"""
 ABOUT_BANNER = f"""
 {GREEN}
-                ╔──────────────────────────────────────────────────╗
-                |               Author: Adrián Toral               |
-                |           Ciber ToolKit Copyright 2022           |
-                | Github: https://github.com/tory1103/cibertoolkit |
-                |                      v1.0.0                      |
-                |                                                  |
-                ┖──────────────────────────────────────────────────┙
+ ╔──────────────────────────────────────────────────╗
+ |               Author: Adrián Toral               |
+ |           Ciber ToolKit Copyright 2022           |
+ | Github:{DARKGREY} https://github.com/tory1103/cibertoolkit{GREEN} |
+ |                      v1.0.0                      |
+ |                                                  |
+ ┖──────────────────────────────────────────────────┙
+                
+ {YELLOW}>>{GREEN} exit  | stop | break
+ {YELLOW}>>{GREEN} clear | cls  | clean
+ {YELLOW}>>{GREEN} back  | pass | skip
+ 
+ {YELLOW}>>{GREEN} tags {LIGHTGREY}<tool>
+ {YELLOW}>>{GREEN} git {LIGHTGREY}<tool>
+ {YELLOW}>>{GREEN} path {LIGHTGREY}<tool>
+ {YELLOW}>>{GREEN} run {LIGHTGREY}<tool>
+ {YELLOW}>>{GREEN} install {LIGHTGREY}<tool>
+ {YELLOW}>>{GREEN} requirements {LIGHTGREY}<tool>
+ {YELLOW}>>{GREEN} isRequirements {LIGHTGREY}<tool>
+ {YELLOW}>>{GREEN} isInstalled {LIGHTGREY}<tool>
+ {YELLOW}>>{GREEN} isWorking {LIGHTGREY}<tool>
+ {YELLOW}>>{GREEN} version {LIGHTGREY}<tool>
 """
 CUSTOM_BANNER = f"""{YELLOW}[*] Custom under development. Try again later...{DEFAULT}"""
 TOOL_TAG_BANNER = f"""========={GREEN}Tool{DEFAULT}==================================={GREEN}Information{DEFAULT}================================"""
