@@ -1,10 +1,12 @@
 FROM kalilinux/kali-rolling
 
-ADD . /cibertoolkit
-
 WORKDIR /cibertoolkit
+COPY requirements.txt install.sh fresh-install.sh uninstall.sh config.sh update.sh ./
+COPY src/ciber-toolkit/data/tools.json src/ciber-toolkit/data/tools.json
+COPY src/ciber-toolkit/builtins src/ciber-toolkit/builtins
 
-RUN apt update
 RUN bash install.sh -y
 
-CMD ["toolkit"]
+COPY . .
+
+CMD toolkit
